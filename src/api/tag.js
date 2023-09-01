@@ -15,15 +15,17 @@ async function getTags() {
   }
 }
 
-async function addTag() {
+async function addTag({ name }) {
   const options = {
     method: "POST",
     url: API_URL + "/tags",
+    data: { name },
   };
   try {
     const response = await axios(options);
     return response.data;
   } catch (error) {
+    alert(error.response.data.message);
     return error.response.data;
   }
 }

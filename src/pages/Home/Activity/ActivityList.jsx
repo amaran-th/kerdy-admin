@@ -5,7 +5,7 @@ import { activityTypes } from "../../../data";
 const ActivityList = ({ activities, refresh, setRefresh }) => {
   const [newActivity, setNewActivity] = useState({});
 
-  const handleSubmit = (event, type) => {
+  const handleSubmit = (type) => {
     activityApi
       .addActivity({
         name: newActivity[type],
@@ -48,7 +48,7 @@ const ActivityList = ({ activities, refresh, setRefresh }) => {
                   <button
                     className="ml-2 w-[6em] rounded-xl bg-green-300 p-1 px-2 text-sm text-white"
                     type="button"
-                    onClick={(e) => handleSubmit(e, activity.activityType)}
+                    onClick={() => handleSubmit(activity.activityType)}
                   >
                     추가하기
                   </button>
