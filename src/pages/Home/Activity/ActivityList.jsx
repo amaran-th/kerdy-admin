@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from "react";
+import activityApi from "../../../api/activity";
+import { activityTypes } from "../../../data";
 
-const ActivityList = ({ activities }) => {
+const ActivityList = ({ activities, refresh, setRefresh }) => {
+  const [newActivity, setNewActivity] = useState({});
+
+  const handleSubmit = (event, type) => {
+    activityApi
+      .addActivity({
+        name: newActivity[type],
+        activityType: activityTypes[type],
+      })
+      .then((data) => {
+        console.log(data);
+        setRefresh(!refresh);
+      });
+  };
+
   return (
     <table className="w-full border-2 border-green-300">
       <thead className="bg-green-300 text-white">
@@ -16,6 +32,27 @@ const ActivityList = ({ activities }) => {
                 <span className="text-lg font-bold text-green-300">
                   {activity.activityType}
                 </span>
+                <form className="mx-4 inline-block">
+                  <input
+                    type="text"
+                    className="border border-black"
+                    value={newActivity[activity.activityType]}
+                    onChange={(e) => {
+                      setNewActivity({
+                        ...newActivity,
+                        [activity.activityType]: e.target.value,
+                      });
+                    }}
+                    required
+                  />
+                  <button
+                    className="ml-2 w-[6em] rounded-xl bg-green-300 p-1 px-2 text-sm text-white"
+                    type="button"
+                    onClick={(e) => handleSubmit(e, activity.activityType)}
+                  >
+                    추가하기
+                  </button>
+                </form>
               </td>
             </tr>
             {activity.activityResponses?.map((activitiyResponse) => (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Side from "../../pages/Side/Side";
 
 const MainLayout = ({ type, setType, children }) => {

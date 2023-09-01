@@ -9,3 +9,10 @@ export const types = {
   ACTIVITY: <Activity />,
   REPORT: <Report />,
 };
+
+export const activityTypes = {
+  동아리: "CLUB",
+  직무: "JOB",
+  컨퍼런스: "CONFERENCE",
+  교육: "EDUCATION",
+};

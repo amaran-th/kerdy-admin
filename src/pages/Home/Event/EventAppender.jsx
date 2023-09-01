@@ -70,7 +70,6 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
             <div className="inline-block min-w-[8em] p-2 text-center">장소</div>
             <input
               type="text"
-              id="location"
               className="border border-black"
               value={newData.location}
               onChange={(e) => {

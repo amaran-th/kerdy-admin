@@ -15,7 +15,11 @@ const Activity = () => {
 
   return (
     <div className="">
-      <ActivityList activities={activities} />
+      <ActivityList
+        activities={activities}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
     </div>
   );
 };

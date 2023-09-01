@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import dayjs from "dayjs";
 
 import tagApi from "../../../api/tag";
 import TagList from "./TagList";
