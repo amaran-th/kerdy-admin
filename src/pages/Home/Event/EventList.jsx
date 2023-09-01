@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { dateParser } from "../../../util";
 import eventApi from "../../../api/event";
 
-const EventList = ({ events, refresh, setRefresh }) => {
+const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
   const handleEventDelete = (id) => {
     if (window.confirm("삭제하시겠습니까?")) {
       eventApi.removeEvent({ id }).then((data) => {
@@ -10,6 +10,7 @@ const EventList = ({ events, refresh, setRefresh }) => {
       });
     }
   };
+
   return (
     <table className="w-full border-2 border-green-300">
       <thead className="bg-green-300 text-white">
@@ -18,8 +19,7 @@ const EventList = ({ events, refresh, setRefresh }) => {
         <th>이름</th>
         <th>태그 목록</th>
         <th>행사 기간</th>
-        <th>수정하기</th>
-        <th>삭제하기</th>
+        <th>수정/삭제</th>
       </thead>
       <tbody>
         {events.map((event) => (
@@ -41,17 +41,18 @@ const EventList = ({ events, refresh, setRefresh }) => {
               <br />
               {dateParser(event.endDate)}
             </td>
-            <td className="flex justify-center">
+            <td className="flex items-center justify-center">
               <button
                 className="rounded-lg border bg-blue-300 p-2 text-white hover:bg-blue-400"
                 onClick={() => {
-                  console.log("수정");
+                  eventApi.getEvent(event.id).then((data) => {
+                    setSelectedEvent(data);
+                    setRefresh(!refresh);
+                  });
                 }}
               >
                 수정하기
               </button>
-            </td>
-            <td className="flex justify-center">
               <button
                 className="rounded-lg border bg-red-300 p-2 text-white hover:bg-red-400"
                 onClick={() => {

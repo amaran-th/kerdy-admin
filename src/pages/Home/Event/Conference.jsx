@@ -4,7 +4,13 @@ import eventApi from "../../../api/event";
 import EventAppender from "./EventAppender";
 import EventList from "./EventList";
 
-const Conference = ({ events, setEvents, refresh, setRefresh }) => {
+const Conference = ({
+  events,
+  setEvents,
+  refresh,
+  setRefresh,
+  setSelectedEvent,
+}) => {
   useEffect(() => {
     eventApi.getConference().then((data) => {
       setEvents(data);
@@ -13,7 +19,12 @@ const Conference = ({ events, setEvents, refresh, setRefresh }) => {
 
   return (
     <div>
-      <EventList events={events} refresh={refresh} setRefresh={setRefresh} />
+      <EventList
+        events={events}
+        refresh={refresh}
+        setRefresh={setRefresh}
+        setSelectedEvent={setSelectedEvent}
+      />
       <EventAppender
         refresh={refresh}
         setRefresh={setRefresh}

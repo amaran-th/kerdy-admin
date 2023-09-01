@@ -16,7 +16,6 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
     applyStartDateTime: defaultDateTime,
     applyEndDateTime: defaultDateTime,
     imageUrl: "",
-    informationUrl: "",
   });
   const [newTags, setNewTags] = useState([]);
 
@@ -186,7 +185,7 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
           className="w-[10em] rounded-md bg-green-300 p-2 text-white"
           type="submit"
         >
-          추가
+          추가하기
         </button>
         <button
           className="w-[6em] rounded-md bg-blue-300 p-1 text-xs text-white"

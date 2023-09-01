@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from "react";
 import Conference from "./Conference";
 import Competition from "./Competition";
+import EventModifier from "./EventModifier";
 
 const Event = () => {
   const [eventType, setEventType] = useState("CONFERENCE");
   const [events, setEvents] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState({});
+
+  useEffect(() => {}, [selectedEvent]);
+
+  const eventModifier = () => (
+    <EventModifier
+      event={selectedEvent}
+      setEvent={setSelectedEvent}
+      refresh={refresh}
+      setRefresh={setRefresh}
+    />
+  );
 
   return (
     <div>
+      {Object.keys(selectedEvent).length !== 0 ? eventModifier() : ""}
+
       <div className="flex p-2">
         <button
           className={
@@ -39,6 +54,7 @@ const Event = () => {
           setEvents={setEvents}
           refresh={refresh}
           setRefresh={setRefresh}
+          setSelectedEvent={setSelectedEvent}
         />
       ) : (
         <Competition
@@ -46,6 +62,7 @@ const Event = () => {
           setEvents={setEvents}
           refresh={refresh}
           setRefresh={setRefresh}
+          setSelectedEvent={setSelectedEvent}
         />
       )}
     </div>

@@ -27,6 +27,18 @@ async function getCompetition() {
     return error.response.data;
   }
 }
+async function getEvent(id) {
+  const options = {
+    method: "GET",
+    url: API_URL + "/events/" + id,
+  };
+  try {
+    const response = await axios(options);
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+}
 
 async function addEvent({ newData, newTags, type }) {
   const options = {
@@ -55,7 +67,7 @@ async function addEvent({ newData, newTags, type }) {
   }
 }
 
-async function modifyEvent({ newData, newTags, type, id }) {
+async function modifyEvent({ newData, newTags, id }) {
   const options = {
     method: "PUT",
     url: API_URL + "/events/" + id,
@@ -70,9 +82,10 @@ async function modifyEvent({ newData, newTags, type, id }) {
       applyEndDateTime: newData.applyEndDateTime,
       tags: newTags,
       imageUrl: newData.imageUrl,
-      type: type,
+      type: newData.type,
     },
   };
+  console.log(options.data);
   try {
     const response = await axios(options);
     return response.data;
@@ -99,6 +112,7 @@ async function removeEvent({ id }) {
 export default {
   getConference,
   getCompetition,
+  getEvent,
   addEvent,
   modifyEvent,
   removeEvent,
