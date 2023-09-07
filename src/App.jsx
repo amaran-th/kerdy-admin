@@ -10,18 +10,9 @@ function App() {
     <>
       <div>
         <div className="font-basic dark:bg-black dark:text-white">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <MainLayout type={type} setType={setType}>
-                    <Home type={type} />
-                  </MainLayout>
-                }
-              />
-            </Routes>
-          </Suspense>
+          <MainLayout type={type} setType={setType}>
+            <Home type={type} />
+          </MainLayout>
         </div>
       </div>
     </>
