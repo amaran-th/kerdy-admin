@@ -240,15 +240,6 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
           >
             취소
           </button>
-          <button
-            className="w-[6em] rounded-md bg-blue-300 p-1 text-xs text-white"
-            type="button"
-            onClick={() => {
-              setRefresh(!refresh);
-            }}
-          >
-            새로고침
-          </button>
         </div>
       </form>
     </div>

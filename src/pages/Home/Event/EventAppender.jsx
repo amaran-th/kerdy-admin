@@ -187,15 +187,6 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
         >
           추가하기
         </button>
-        <button
-          className="w-[6em] rounded-md bg-blue-300 p-1 text-xs text-white"
-          type="button"
-          onClick={() => {
-            setRefresh(!refresh);
-          }}
-        >
-          새로고침
-        </button>
       </div>
     </form>
   );
