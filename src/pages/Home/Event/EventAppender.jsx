@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import eventApi from "../../../api/event";
 import tagApi from "../../../api/tag";
+import ThumbnailUploader from "./ThumbnailUploader";
+import ImagesUploader from "./ImagesUploader"
 
 const defaultDateTime = new Date().toISOString().slice(0, 10) + "T00:00:00";
 
@@ -15,9 +17,10 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
     endDateTime: defaultDateTime,
     applyStartDateTime: defaultDateTime,
     applyEndDateTime: defaultDateTime,
-    imageUrl: "",
   });
   const [newTags, setNewTags] = useState([]);
+  const [thumbnail, setThumbnail] = useState();
+  const [informationImages, setInformationImages] = useState([]);
 
   useEffect(() => {
     tagApi.getTags().then((data) => {
@@ -27,7 +30,8 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    eventApi.addEvent({ newData, newTags, type }).then((data) => {
+    var images = [thumbnail, ...informationImages];
+    eventApi.addEvent({ newData, newTags, type, images }).then((data) => {
       console.log(data);
       setRefresh(!refresh);
     });
@@ -48,8 +52,8 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
       className="rounded-md border border-black p-2"
       onSubmit={handleSubmit}
     >
-      <div className="flex justify-center">
-        <img className="h-40 w-40 border" src={newData.imageUrl} />
+      <div className="flex justify-center space-x-4">
+        <ThumbnailUploader title="섬네일" setThumbnail={setThumbnail} />
         <div>
           <div>
             <div className="inline-block min-w-[8em] p-2 text-center">
@@ -73,20 +77,6 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
               value={newData.location}
               onChange={(e) => {
                 setNewData({ ...newData, location: e.target.value });
-              }}
-              required
-            />
-          </div>
-          <div>
-            <div className="inline-block min-w-[8em] p-2 text-center">
-              이미지 URL
-            </div>
-            <input
-              type="text"
-              className="border border-black"
-              value={newData.imageUrl}
-              onChange={(e) => {
-                setNewData({ ...newData, imageUrl: e.target.value });
               }}
               required
             />
@@ -178,6 +168,7 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
               ))}
             </div>
           </div>
+          <ImagesUploader title="상세 정보 이미지들" informationImages={informationImages} setInformationImages={setInformationImages} />
         </div>
       </div>
       <div className="flex-center flex justify-center gap-4">

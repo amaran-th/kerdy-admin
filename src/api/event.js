@@ -40,7 +40,7 @@ async function getEvent(id) {
   }
 }
 
-async function addEvent({ newData, newTags, type }) {
+async function addEvent({ newData, newTags, type, images }) {
   const options = {
     method: "POST",
     url: API_URL + "/events",
@@ -54,7 +54,7 @@ async function addEvent({ newData, newTags, type }) {
       applyStartDateTime: newData.applyStartDateTime,
       applyEndDateTime: newData.applyEndDateTime,
       tags: newTags,
-      imageUrl: newData.imageUrl,
+      images: images, // TODO 확정된 후 수정하기 
       type: type,
     },
   };
