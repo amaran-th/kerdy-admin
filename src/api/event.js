@@ -53,8 +53,10 @@ async function addEvent({ newData, newTags, type, images }) {
       endDateTime: newData.endDateTime,
       applyStartDateTime: newData.applyStartDateTime,
       applyEndDateTime: newData.applyEndDateTime,
+      eventMode: newData.eventMode,
+      paymentType: newData.paymentType,
       tags: newTags,
-      images: images, // TODO 확정된 후 수정하기 
+      //images: images, // TODO 확정된 후 수정하기 
       type: type,
     },
   };

@@ -17,6 +17,8 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
     endDateTime: defaultDateTime,
     applyStartDateTime: defaultDateTime,
     applyEndDateTime: defaultDateTime,
+    paymentType: "FREE",
+    eventMode: "OFFLINE",
   });
   const [newTags, setNewTags] = useState([]);
   const [thumbnail, setThumbnail] = useState();
@@ -30,6 +32,7 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(newData)
     var images = [thumbnail, ...informationImages];
     eventApi.addEvent({ newData, newTags, type, images }).then((data) => {
       console.log(data);
@@ -146,6 +149,32 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
               required
             />
           </div>
+          <div>
+            <div className="inline-block min-w-[8em] p-2 text-center">
+              유/무료
+            </div>
+            <select className="border border-black w-40" onChange={(e) => {
+              setNewData({ ...newData, paymentType: e.target.value })
+            }}
+              value={newData.paymentType}>
+              <option value="FREE">무료</option>
+              <option value="PAID">유료</option>
+              <option value="FREE_PAID">유무료</option>
+            </select>
+          </div>
+          <div>
+            <div className="inline-block min-w-[8em] p-2 text-center">
+              온/오프라인
+            </div>
+            <select className="border border-black w-40" onChange={(e) => {
+              setNewData({ ...newData, eventMode: e.target.value })
+            }}
+              value={newData.eventMode}>
+              <option value="OFFLINE">오프라인</option>
+              <option value="ONLINE">온라인</option>
+              <option value="ON_OFFLINE">온/오프라인</option>
+            </select>
+          </div>
           <div className="flex">
             <div className="inline-block min-w-[8em] p-2 text-center">태그</div>
             <div className="flex flex-wrap">
@@ -179,7 +208,7 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
           추가하기
         </button>
       </div>
-    </form>
+    </form >
   );
 };
 
