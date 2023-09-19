@@ -30,6 +30,13 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
             </td>
             <td>{event.name}</td>
             <td>
+              <div className="mb-2">
+                <span className="m-1 rounded-full bg-yellow-300 p-1 px-2 text-xs">
+                  {event.paymentType}
+                </span>
+                <span className="m-1 rounded-full bg-blue-300 p-1 px-2 text-xs">
+                  {event.eventMode}
+                </span></div>
               {event.tags?.map((tag) => (
                 <span className="m-1 rounded-full bg-gray-300 p-1 px-2 text-xs">
                   {tag}
