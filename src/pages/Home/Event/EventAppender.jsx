@@ -17,11 +17,13 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
     endDateTime: defaultDateTime,
     applyStartDateTime: defaultDateTime,
     applyEndDateTime: defaultDateTime,
+    imageUrl: "",
     paymentType: "FREE",
     eventMode: "OFFLINE",
+    organization: "",
   });
   const [newTags, setNewTags] = useState([]);
-  const [thumbnail, setThumbnail] = useState();
+  const [thumbnail, setThumbnail] = useState(null);
   const [informationImages, setInformationImages] = useState([]);
 
   useEffect(() => {
@@ -33,7 +35,8 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(newData)
-    var images = [thumbnail, ...informationImages];
+
+    var images = thumbnail ? [thumbnail, ...informationImages] : informationImages;
     eventApi.addEvent({ newData, newTags, type, images }).then((data) => {
       console.log(data);
       setRefresh(!refresh);
@@ -60,6 +63,21 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
         <div>
           <div>
             <div className="inline-block min-w-[8em] p-2 text-center">
+              섬네일 URL(추후 삭제 예정)
+            </div>
+            <input
+              type="text"
+              className="border border-black"
+              value={newData.imageUrl}
+              onChange={(e) => {
+                setNewData({ ...newData, imageUrl: e.target.value });
+              }}
+              required
+            />
+            <img className="inline-block h-40 w-40 border" src={newData.imageUrl} />
+          </div>
+          <div>
+            <div className="inline-block min-w-[8em] p-2 text-center">
               행사명
             </div>
             <input
@@ -80,6 +98,18 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
               value={newData.location}
               onChange={(e) => {
                 setNewData({ ...newData, location: e.target.value });
+              }}
+              required
+            />
+          </div>
+          <div>
+            <div className="inline-block min-w-[8em] p-2 text-center">주최 기관</div>
+            <input
+              type="text"
+              className="border border-black"
+              value={newData.organization}
+              onChange={(e) => {
+                setNewData({ ...newData, organization: e.target.value });
               }}
               required
             />

@@ -19,6 +19,7 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
         <th>이름</th>
         <th>태그 목록</th>
         <th>행사 기간</th>
+        <th>주최 기관</th>
         <th>수정/삭제</th>
       </thead>
       <tbody>
@@ -47,6 +48,9 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
               {dateParser(event.startDate)}~
               <br />
               {dateParser(event.endDate)}
+            </td>
+            <td>
+              {event.organization}
             </td>
             <td className="flex items-center justify-center">
               <button
