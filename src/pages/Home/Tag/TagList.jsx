@@ -17,7 +17,7 @@ const TagList = ({ tags }) => {
 
             <td className="flex justify-center">
               <button
-                className="rounded-lg border bg-red-300 p-2 text-white hover:bg-red-400"
+                className="rounded-lg border bg-gray-400 p-2 text-white hover:bg-red-400"
                 onClick={() => {
                   console.log("삭제");
                 }}
