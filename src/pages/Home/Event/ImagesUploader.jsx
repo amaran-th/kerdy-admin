@@ -9,7 +9,6 @@ const ImagesUploader = ({ title, informationImages, setInformationImages }) => {
     const onDrop = useCallback((acceptedFiles) => {
         setInformationImages([...informationImages, ...acceptedFiles]);
         setBase64s([...base64s, ...acceptedFiles.map((file) => URL.createObjectURL(file))])
-        console.log(informationImages)
     }, [informationImages]);
 
     useEffect(() => {

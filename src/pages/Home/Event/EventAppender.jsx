@@ -34,11 +34,9 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(newData)
 
     var images = thumbnail ? [thumbnail, ...informationImages] : informationImages;
     eventApi.addEvent({ newData, newTags, type, images }).then((data) => {
-      console.log(data);
       setRefresh(!refresh);
     });
   };

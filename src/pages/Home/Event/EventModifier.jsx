@@ -42,8 +42,8 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
         informationUrl: event.informationUrl,
         startDateTime: dateParser2(event.startDate),
         endDateTime: dateParser2(event.endDate),
-        applyStartDateTime: "",
-        applyEndDateTime: "",
+        applyStartDateTime: dateParser2(event.applyStartDate),
+        applyEndDateTime: dateParser2(event.applyEndDate),
         imageUrl: event.imageUrl,
         type: event.type,
         paymentType: event.paymentType,
@@ -71,6 +71,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
       }
     });
   };
+
   const addTag = (tag) => {
     setNewTags([...newTags, { name: tag.name }]);
   };
@@ -170,7 +171,6 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
                 value={newData.startDateTime}
                 onChange={(e) => {
                   setNewData({ ...newData, startDateTime: e.target.value });
-                  console.log(newData);
                 }}
                 required
               />

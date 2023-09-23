@@ -67,7 +67,6 @@ async function addEvent({ newData, newTags, type, images }) {
     data: formData
   };
   try {
-    console.log(options)
     const response = await axios(options);
     return response.data;
   } catch (error) {
@@ -102,7 +101,6 @@ async function modifyEvent({ newData, newTags, id, images }) {
     url: API_URL + "/events/" + id,
     data: formData
   };
-  console.log(options.data);
   try {
     const response = await axios(options);
     return response.data;

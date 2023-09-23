@@ -11,6 +11,6 @@ export const dateParser = (datetime) => {
 export const dateParser2 = (datetime) => {
   var date = datetime?.slice(0, 10);
   date = date?.replaceAll(":", "-");
-  return dayjs(date + "T" + datetime?.slice(11, datetime?.length)).format('yyyy-MM-DDTHH:mm:ss')
+  return dayjs(date + "T" + datetime?.slice(11, datetime?.length)).format('YYYY-MM-DDTHH:mm:ss')
 };
 

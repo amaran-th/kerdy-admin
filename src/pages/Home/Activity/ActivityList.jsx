@@ -12,7 +12,6 @@ const ActivityList = ({ activities, refresh, setRefresh }) => {
         activityType: activityTypes[type],
       })
       .then((data) => {
-        console.log(data);
         setRefresh(!refresh);
       });
   };

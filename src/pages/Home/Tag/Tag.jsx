@@ -16,7 +16,6 @@ const Tag = () => {
 
   const handleSubmit = () => {
     tagApi.addTag({ name: newTagName }).then((data) => {
-      console.log(data);
       setRefresh(!refresh);
     });
   };
