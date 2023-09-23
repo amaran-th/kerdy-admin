@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { dateParser } from "../../../util";
 import eventApi from "../../../api/event";
 
+const IMAGE_PATH = process.env.REACT_APP_IMAGE_PATH;
+
 const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
   const handleEventDelete = (id) => {
     if (window.confirm("삭제하시겠습니까?")) {
@@ -15,11 +17,11 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
     <table className="w-full border-2 border-green-300">
       <thead className="bg-green-300 text-white">
         <th>id</th>
-        <th>이미지</th>
+        <th>이미지(삭제 예정)</th>
+        <th>섬네일</th>
         <th>이름</th>
         <th>태그 목록</th>
         <th>행사 기간</th>
-        <th>주최 기관</th>
         <th>수정/삭제</th>
       </thead>
       <tbody>
@@ -28,6 +30,9 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
             <td>{event.id}</td>
             <td>
               <img className="h-24 w-24" src={event.imageUrl} />
+            </td>
+            <td>
+              <img className="h-24 w-24" src={IMAGE_PATH + event.thumbnail} />
             </td>
             <td>{event.name}</td>
             <td>
@@ -48,9 +53,6 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
               {dateParser(event.startDate)}~
               <br />
               {dateParser(event.endDate)}
-            </td>
-            <td>
-              {event.organization}
             </td>
             <td className="flex items-center justify-center">
               <button
