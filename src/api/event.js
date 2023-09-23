@@ -76,23 +76,31 @@ async function addEvent({ newData, newTags, type, images }) {
   }
 }
 
-async function modifyEvent({ newData, newTags, id }) {
+async function modifyEvent({ newData, newTags, id, images }) {
+  const formData = new FormData();
+  const request = {
+    name: newData.name,
+    location: newData.location,
+    informationUrl: newData.informationUrl,
+    startDateTime: newData.startDateTime,
+    endDateTime: newData.endDateTime,
+    applyStartDateTime: newData.applyStartDateTime,
+    applyEndDateTime: newData.applyEndDateTime,
+    tags: newTags,
+    imageUrl: newData.imageUrl,
+    type: newData.type,
+    eventMode: newData.eventMode,
+    paymentType: newData.paymentType,
+    organization: newData.organization,
+  };
+  formData.append(`request`, new Blob([JSON.stringify(request)], { type: "application/json" }))
+  Array.from(images).forEach((image) => {
+    formData.append(`images`, image);
+  })
   const options = {
     method: "PUT",
     url: API_URL + "/events/" + id,
-    headers: { token: "testtest" },
-    data: {
-      name: newData.name,
-      location: newData.location,
-      informationUrl: newData.informationUrl,
-      startDateTime: newData.startDateTime,
-      endDateTime: newData.endDateTime,
-      applyStartDateTime: newData.applyStartDateTime,
-      applyEndDateTime: newData.applyEndDateTime,
-      tags: newTags,
-      imageUrl: newData.imageUrl,
-      type: newData.type,
-    },
+    data: formData
   };
   console.log(options.data);
   try {

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Kerdy Admin",
+  "name": "Kerdy 서비스 관리자 페이지",
   "icons": [
     {
       "src": "favicon.ico",

@@ -2,52 +2,68 @@ import React, { useState, useEffect } from "react";
 
 import eventApi from "../../../api/event";
 import tagApi from "../../../api/tag";
+import { dateParser2 } from "../../../util";
+import ThumbnailUploader from "./ThumbnailUploader";
+import ImagesUploader from "./ImagesUploader"
+
 const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
   const [tags, setTags] = useState([]);
   const [newData, setNewData] = useState({
     name: event.name,
     location: event.location,
-    imageUrl: event.imageUrl,
     informationUrl: event.informationUrl,
     startDateTime: "",
     endDateTime: "",
     applyStartDateTime: "",
     applyEndDateTime: "",
+    imageUrl: event.imageUrl,
     type: event.type,
+    paymentType: event.paymentType,
+    eventMode: event.eventMode,
+    organization: event.organization
   });
   const [newTags, setNewTags] = useState(
     event.tags?.map((tag) => {
       return { name: tag };
     })
   );
+  const [thumbnail, setThumbnail] = useState(null);
+  const [newImages, setNewImages] = useState([]);
 
   useEffect(() => {
     tagApi.getTags().then((data) => {
       setTags(data);
     });
+
     if (Object.keys(event).length !== 0) {
       setNewData({
         name: event.name,
         location: event.location,
-        imageUrl: event.imageUrl,
         informationUrl: event.informationUrl,
-        startDateTime: "",
-        endDateTime: "",
+        startDateTime: dateParser2(event.startDate),
+        endDateTime: dateParser2(event.endDate),
         applyStartDateTime: "",
         applyEndDateTime: "",
+        imageUrl: event.imageUrl,
         type: event.type,
+        paymentType: event.paymentType,
+        eventMode: event.eventMode,
+        organization: event.organization
       });
       setNewTags(
         event.tags?.map((tag) => {
           return { name: tag };
         })
       );
+      setThumbnail(null);
+      setNewImages([]);
     }
   }, [event]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    eventApi.modifyEvent({ newData, newTags, id: event.id }).then((data) => {
+    var images = thumbnail ? [thumbnail, ...newImages] : newImages;
+    eventApi.modifyEvent({ newData, newTags, id: event.id, images }).then((data) => {
       if (!data.message) {
         alert("정상적으로 수정되었습니다.");
         setEvent({});
@@ -73,8 +89,23 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
         onSubmit={handleSubmit}
       >
         <div className="flex justify-center">
-          <img className="h-40 w-40 border" src={newData.imageUrl} />
+          <ThumbnailUploader title="섬네일" setThumbnail={setThumbnail} />
           <div>
+            <div>
+              <div className="inline-block min-w-[8em] p-2 text-center">
+                섬네일 URL(추후 삭제 예정)
+              </div>
+              <input
+                type="text"
+                className="border border-black"
+                value={newData.imageUrl}
+                onChange={(e) => {
+                  setNewData({ ...newData, imageUrl: e.target.value });
+                }}
+                required
+              />
+              <img className="inline-block h-40 w-40 border" src={newData.imageUrl} />
+            </div>
             <div>
               <div className="inline-block min-w-[8em] p-2 text-center">
                 행사명
@@ -104,15 +135,13 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
               />
             </div>
             <div>
-              <div className="inline-block min-w-[8em] p-2 text-center">
-                이미지 URL
-              </div>
+              <div className="inline-block min-w-[8em] p-2 text-center">주최 기관</div>
               <input
                 type="text"
                 className="border border-black"
-                value={newData.imageUrl}
+                value={newData.organization}
                 onChange={(e) => {
-                  setNewData({ ...newData, imageUrl: e.target.value });
+                  setNewData({ ...newData, organization: e.target.value });
                 }}
                 required
               />
@@ -183,6 +212,32 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
                 required
               />
             </div>
+            <div>
+              <div className="inline-block min-w-[8em] p-2 text-center">
+                유/무료
+              </div>
+              <select className="border border-black w-40" onChange={(e) => {
+                setNewData({ ...newData, paymentType: e.target.value })
+              }}
+                value={newData.paymentType}>
+                <option value="FREE">무료</option>
+                <option value="PAID">유료</option>
+                <option value="FREE_PAID">유무료</option>
+              </select>
+            </div>
+            <div>
+              <div className="inline-block min-w-[8em] p-2 text-center">
+                온/오프라인
+              </div>
+              <select className="border border-black w-40" onChange={(e) => {
+                setNewData({ ...newData, eventMode: e.target.value })
+              }}
+                value={newData.eventMode}>
+                <option value="OFFLINE">오프라인</option>
+                <option value="ONLINE">온라인</option>
+                <option value="ON_OFFLINE">온/오프라인</option>
+              </select>
+            </div>
             {/* <div>
               <div className="inline-block min-w-[8em] p-2 text-center">
                 행사 유형
@@ -222,6 +277,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
                 ))}
               </div>
             </div>
+            <ImagesUploader title="상세 정보 이미지들" informationImages={newImages} setInformationImages={setNewImages} />
           </div>
         </div>
         <div className="flex-center flex justify-center gap-4">
