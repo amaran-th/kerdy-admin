@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/kerdy-admin/static/css/main.f858b04b.css",
-    "main.js": "/kerdy-admin/static/js/main.5d047977.js",
+    "main.js": "/kerdy-admin/static/js/main.d68fe068.js",
     "index.html": "/kerdy-admin/index.html",
     "main.f858b04b.css.map": "/kerdy-admin/static/css/main.f858b04b.css.map",
-    "main.5d047977.js.map": "/kerdy-admin/static/js/main.5d047977.js.map"
+    "main.d68fe068.js.map": "/kerdy-admin/static/js/main.d68fe068.js.map"
   },
   "entrypoints": [
     "static/css/main.f858b04b.css",
-    "static/js/main.5d047977.js"
+    "static/js/main.d68fe068.js"
   ]
 }
