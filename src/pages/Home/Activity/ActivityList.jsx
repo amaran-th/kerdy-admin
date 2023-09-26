@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import activityApi from "../../../api/activity";
 import { activityTypes } from "../../../data";
+import { connect } from "react-redux";
 
-const ActivityList = ({ activities, refresh, setRefresh }) => {
+const ActivityList = ({ activities, refresh, setRefresh, state }) => {
   const [newActivity, setNewActivity] = useState({});
 
   const handleSubmit = (type) => {
@@ -10,6 +11,7 @@ const ActivityList = ({ activities, refresh, setRefresh }) => {
       .addActivity({
         name: newActivity[type],
         activityType: activityTypes[type],
+        envType: state.envType.envType
       })
       .then((data) => {
         setRefresh(!refresh);
@@ -80,4 +82,8 @@ const ActivityList = ({ activities, refresh, setRefresh }) => {
   );
 };
 
-export default ActivityList;
+const mapStateToProps = (state, OwnProps) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(ActivityList);

@@ -1,11 +1,10 @@
 import axios from "axios";
+import { getApiUrl } from "../util";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-async function getActivities() {
+async function getActivities(envType) {
   const options = {
     method: "GET",
-    url: API_URL + "/activities",
+    url: getApiUrl(envType) + "/activities",
   };
   try {
     const response = await axios(options);
@@ -15,10 +14,10 @@ async function getActivities() {
   }
 }
 
-async function addActivity({ name, activityType }) {
+async function addActivity({ name, activityType, envType }) {
   const options = {
     method: "POST",
-    url: API_URL + "/activities",
+    url: getApiUrl(envType) + "/activities",
     headers: { token: "testtest" },
     data: {
       name,

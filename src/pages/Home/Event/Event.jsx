@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import Conference from "./Conference";
 import Competition from "./Competition";
 import EventModifier from "./EventModifier";
+import { connect } from "react-redux";
 
-const Event = () => {
+const Event = ({ state }) => {
   const [eventType, setEventType] = useState("CONFERENCE");
   const [events, setEvents] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState({});
 
-  useEffect(() => {}, [selectedEvent]);
+  useEffect(() => { }, [selectedEvent]);
 
   const eventModifier = () => (
     <EventModifier
@@ -69,4 +70,8 @@ const Event = () => {
   );
 };
 
-export default Event;
+const mapStateToProps = (state, OwnProps) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(Event);

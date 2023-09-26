@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 
 import eventApi from "../../../api/event";
 import tagApi from "../../../api/tag";
-import { dateParser2 } from "../../../util";
+import { dateParser2, getImagePath } from "../../../util";
 import ThumbnailUploader from "./ThumbnailUploader";
 import ImagesUploader from "./ImagesUploader"
+import { connect } from "react-redux";
 
-const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
+const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
   const [tags, setTags] = useState([]);
   const [newData, setNewData] = useState({
     name: event.name,
@@ -29,9 +30,10 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
   );
   const [thumbnail, setThumbnail] = useState(null);
   const [newImages, setNewImages] = useState([]);
+  const { envType } = state.envType;
 
   useEffect(() => {
-    tagApi.getTags().then((data) => {
+    tagApi.getTags(envType).then((data) => {
       setTags(data);
     });
 
@@ -63,7 +65,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     var images = thumbnail ? [thumbnail, ...newImages] : newImages;
-    eventApi.modifyEvent({ newData, newTags, id: event.id, images }).then((data) => {
+    eventApi.modifyEvent({ newData, newTags, id: event.id, images, envType }).then((data) => {
       if (!data.message) {
         alert("정상적으로 수정되었습니다.");
         setEvent({});
@@ -86,7 +88,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
   return (
     <div className="fixed top-0 left-0 z-[99] flex h-[100vh] w-full items-center justify-center bg-black bg-opacity-70">
       <form
-        className="rounded-md border border-black bg-white p-2"
+        className="rounded-md border border-black bg-white p-2 max-h-[80vh] overflow-y-auto"
         onSubmit={handleSubmit}
       >
         <div className="flex justify-center">
@@ -277,6 +279,15 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
                 ))}
               </div>
             </div>
+            <div className="flex">
+              <div className="inline-block min-w-[8em] p-2 text-center">
+                수정 전 이미지들
+              </div>
+              <div className="flex flex-wrap">
+                {event.imageUrls?.map(image => <img src={getImagePath(envType) + image} className={`inset-0 max-h-20 max-w-20 object-cover`}
+                />)}
+              </div>
+            </div>
             <ImagesUploader title="상세 정보 이미지들" informationImages={newImages} setInformationImages={setNewImages} />
           </div>
         </div>
@@ -302,4 +313,8 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh }) => {
   );
 };
 
-export default EventModifier;
+const mapStateToProps = (state, OwnProps) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(EventModifier);

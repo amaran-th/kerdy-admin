@@ -1,11 +1,10 @@
 import axios from "axios";
+import { getApiUrl } from "../util";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-async function getTags() {
+async function getTags(envType) {
   const options = {
     method: "GET",
-    url: API_URL + "/tags",
+    url: getApiUrl(envType) + "/tags",
   };
   try {
     const response = await axios(options);
@@ -15,10 +14,10 @@ async function getTags() {
   }
 }
 
-async function addTag({ name }) {
+async function addTag({ name, envType }) {
   const options = {
     method: "POST",
-    url: API_URL + "/tags",
+    url: getApiUrl(envType) + "/tags",
     data: { name },
   };
   try {

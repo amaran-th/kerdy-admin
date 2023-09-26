@@ -4,10 +4,11 @@ import eventApi from "../../../api/event";
 import tagApi from "../../../api/tag";
 import ThumbnailUploader from "./ThumbnailUploader";
 import ImagesUploader from "./ImagesUploader"
+import { connect } from "react-redux";
 
 const defaultDateTime = new Date().toISOString().slice(0, 10) + "T00:00:00";
 
-const EventAppender = ({ refresh, setRefresh, type }) => {
+const EventAppender = ({ refresh, setRefresh, type, state }) => {
   const [tags, setTags] = useState([]);
   const [newData, setNewData] = useState({
     name: "",
@@ -25,9 +26,10 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
   const [newTags, setNewTags] = useState([]);
   const [thumbnail, setThumbnail] = useState(null);
   const [informationImages, setInformationImages] = useState([]);
+  const { envType } = state.envType;
 
   useEffect(() => {
-    tagApi.getTags().then((data) => {
+    tagApi.getTags(envType).then((data) => {
       setTags(data);
     });
   }, [refresh]);
@@ -36,7 +38,7 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
     event.preventDefault();
 
     var images = thumbnail ? [thumbnail, ...informationImages] : informationImages;
-    eventApi.addEvent({ newData, newTags, type, images }).then((data) => {
+    eventApi.addEvent({ newData, newTags, type, images, envType }).then((data) => {
       setRefresh(!refresh);
     });
   };
@@ -240,4 +242,8 @@ const EventAppender = ({ refresh, setRefresh, type }) => {
   );
 };
 
-export default EventAppender;
+const mapStateToProps = (state, OwnProps) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(EventAppender);

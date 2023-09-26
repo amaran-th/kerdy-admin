@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { dateParser } from "../../../util";
+import { dateParser, getImagePath } from "../../../util";
 import eventApi from "../../../api/event";
+import { connect } from "react-redux";
 
-const IMAGE_PATH = process.env.REACT_APP_IMAGE_PATH;
-
-const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
+const EventList = ({ events, refresh, setRefresh, setSelectedEvent, state }) => {
+  const { envType } = state.envType;
   const handleEventDelete = (id) => {
     if (window.confirm("삭제하시겠습니까?")) {
-      eventApi.removeEvent({ id }).then((data) => {
+      eventApi.removeEvent({ id, envType }).then((data) => {
         setRefresh(!refresh);
       });
     }
@@ -25,14 +25,14 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
         <th>수정/삭제</th>
       </thead>
       <tbody>
-        {events.map((event) => (
+        {events?.map((event) => (
           <tr id={event.id} className="border-2 border-green-300">
             <td>{event.id}</td>
             <td>
               <img className="h-24 w-24" src={event.imageUrl} />
             </td>
             <td>
-              <img className="h-24 w-24" src={IMAGE_PATH + event.thumbnail} />
+              <img className="h-24 w-24" src={getImagePath(envType) + event.thumbnail} />
             </td>
             <td>{event.name}</td>
             <td>
@@ -58,7 +58,7 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
               <button
                 className="rounded-lg border bg-blue-300 p-2 text-white hover:bg-blue-400"
                 onClick={() => {
-                  eventApi.getEvent(event.id).then((data) => {
+                  eventApi.getEvent({ id: event.id, envType }).then((data) => {
                     setSelectedEvent(data);
                     setRefresh(!refresh);
                   });
@@ -82,4 +82,8 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent }) => {
   );
 };
 
-export default EventList;
+const mapStateToProps = (state, OwnProps) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(EventList);

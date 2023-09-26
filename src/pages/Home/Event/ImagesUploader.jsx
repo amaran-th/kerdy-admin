@@ -35,7 +35,7 @@ const ImagesUploader = ({ title, informationImages, setInformationImages }) => {
     };
 
     return (
-        <div className="flex h-full flex-col space-y-[10px]">
+        <div className="flex flex-col space-y-[10px]">
             <div className="flex shrink items-center justify-between">
                 <p className="text-paragraph">{title || '썸네일'}</p>
                 <button

@@ -1,11 +1,11 @@
 import axios from "axios";
+import { getApiUrl } from "../util";
 
-const API_URL = process.env.REACT_APP_API_URL;
 
-async function getReports() {
+async function getReports(envType) {
   const options = {
     method: "GET",
-    url: API_URL + "/reports",
+    url: getApiUrl(envType) + "/reports",
   };
   try {
     const response = await axios(options);

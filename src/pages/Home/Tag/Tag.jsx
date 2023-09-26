@@ -2,20 +2,23 @@ import React, { useState, useEffect } from "react";
 
 import tagApi from "../../../api/tag";
 import TagList from "./TagList";
+import { connect } from "react-redux";
 
-const Tag = () => {
+const Tag = ({ state }) => {
   const [tags, setTags] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [newTagName, setNewTagName] = useState("");
+  const { envType } = state.envType;
+
 
   useEffect(() => {
-    tagApi.getTags().then((data) => {
+    tagApi.getTags(envType).then((data) => {
       setTags(data);
     });
   }, [refresh]);
 
   const handleSubmit = () => {
-    tagApi.addTag({ name: newTagName }).then((data) => {
+    tagApi.addTag({ name: newTagName, envType }).then((data) => {
       setRefresh(!refresh);
     });
   };
@@ -43,4 +46,8 @@ const Tag = () => {
   );
 };
 
-export default Tag;
+const mapStateToProps = (state, OwnProps) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(Tag);

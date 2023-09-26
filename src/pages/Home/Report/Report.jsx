@@ -3,13 +3,14 @@ import dayjs from "dayjs";
 
 import reportApi from "../../../api/report";
 import ReportList from "./ReportList";
+import { connect } from "react-redux";
 
-const Report = () => {
+const Report = ({ state }) => {
   const [reports, setReports] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    reportApi.getReports().then((data) => {
+    reportApi.getReports(state.envType.envType).then((data) => {
       setReports(data);
     });
   }, [refresh]);
@@ -21,4 +22,8 @@ const Report = () => {
   );
 };
 
-export default Report;
+const mapStateToProps = (state, OwnProps) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(Report);

@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import activityApi from "../../../api/activity";
 import ActivityList from "./ActivityList";
+import { connect } from "react-redux";
 
-const Activity = () => {
+const Activity = ({ state }) => {
   const [activities, setActivities] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    activityApi.getActivities().then((data) => {
+    activityApi.getActivities(state.envType.envType).then((data) => {
       setActivities(data);
     });
   }, [refresh]);
@@ -24,4 +25,8 @@ const Activity = () => {
   );
 };
 
-export default Activity;
+const mapStateToProps = (state, OwnProps) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(Activity);

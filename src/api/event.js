@@ -1,11 +1,10 @@
 import axios from "axios";
+import { getApiUrl } from "../util";
 
-const API_URL = process.env.REACT_APP_API_URL;
-
-async function getConference() {
+async function getConference(envType) {
   const options = {
     method: "GET",
-    url: API_URL + "/events?category=CONFERENCE",
+    url: getApiUrl(envType) + "/events?category=CONFERENCE",
   };
   try {
     const response = await axios(options);
@@ -15,10 +14,10 @@ async function getConference() {
   }
 }
 
-async function getCompetition() {
+async function getCompetition(envType) {
   const options = {
     method: "GET",
-    url: API_URL + "/events?category=COMPETITION",
+    url: getApiUrl(envType) + "/events?category=COMPETITION",
   };
   try {
     const response = await axios(options);
@@ -27,10 +26,10 @@ async function getCompetition() {
     return error.response.data;
   }
 }
-async function getEvent(id) {
+async function getEvent({ id, envType }) {
   const options = {
     method: "GET",
-    url: API_URL + "/events/" + id,
+    url: getApiUrl(envType) + "/events/" + id,
   };
   try {
     const response = await axios(options);
@@ -40,7 +39,7 @@ async function getEvent(id) {
   }
 }
 
-async function addEvent({ newData, newTags, type, images }) {
+async function addEvent({ newData, newTags, type, images, envType }) {
   const formData = new FormData();
   const request = {
     name: newData.name,
@@ -63,7 +62,7 @@ async function addEvent({ newData, newTags, type, images }) {
   })
   const options = {
     method: "POST",
-    url: API_URL + "/events",
+    url: getApiUrl(envType) + "/events",
     data: formData
   };
   try {
@@ -75,7 +74,7 @@ async function addEvent({ newData, newTags, type, images }) {
   }
 }
 
-async function modifyEvent({ newData, newTags, id, images }) {
+async function modifyEvent({ newData, newTags, id, images, envType }) {
   const formData = new FormData();
   const request = {
     name: newData.name,
@@ -98,7 +97,7 @@ async function modifyEvent({ newData, newTags, id, images }) {
   })
   const options = {
     method: "PUT",
-    url: API_URL + "/events/" + id,
+    url: getApiUrl(envType) + "/events/" + id,
     data: formData
   };
   try {
@@ -109,10 +108,10 @@ async function modifyEvent({ newData, newTags, id, images }) {
     return error.response.data;
   }
 }
-async function removeEvent({ id }) {
+async function removeEvent({ id, envType }) {
   const options = {
     method: "DELETE",
-    url: API_URL + "/events/" + id,
+    url: getApiUrl(envType) + "/events/" + id,
     headers: { token: "testtest" },
   };
   try {

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import eventApi from "../../../api/event";
 import EventAppender from "./EventAppender";
 import EventList from "./EventList";
+import { connect } from "react-redux";
 
 const Conference = ({
   events,
@@ -10,9 +11,10 @@ const Conference = ({
   refresh,
   setRefresh,
   setSelectedEvent,
+  state,
 }) => {
   useEffect(() => {
-    eventApi.getConference().then((data) => {
+    eventApi.getConference(state.envType.envType).then((data) => {
       setEvents(data);
     });
   }, [refresh]);
@@ -34,4 +36,8 @@ const Conference = ({
   );
 };
 
-export default Conference;
+const mapStateToProps = (state, OwnProps) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(Conference);
