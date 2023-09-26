@@ -26,6 +26,7 @@ const EventAppender = ({ refresh, setRefresh, type, state }) => {
   const [newTags, setNewTags] = useState([]);
   const [thumbnail, setThumbnail] = useState(null);
   const [informationImages, setInformationImages] = useState([]);
+  const [preventClick, setPreventClick] = useState(false);
   const { envType } = state.envType;
 
   useEffect(() => {
@@ -36,11 +37,15 @@ const EventAppender = ({ refresh, setRefresh, type, state }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    setPreventClick(true);
     var images = thumbnail ? [thumbnail, ...informationImages] : informationImages;
     eventApi.addEvent({ newData, newTags, type, images, envType }).then((data) => {
-      setRefresh(!refresh);
+      if (!data.message) {
+        alert("정상적으로 등록되었습니다.");
+        setRefresh(!refresh);
+      }
     });
+    setPreventClick(false)
   };
   const addTag = (tag) => {
     setNewTags([...newTags, { name: tag.name }]);
@@ -233,6 +238,7 @@ const EventAppender = ({ refresh, setRefresh, type, state }) => {
       <div className="flex-center flex justify-center gap-4">
         <button
           className="w-[10em] rounded-md bg-green-300 p-2 text-white"
+          disabled={preventClick}
           type="submit"
         >
           추가하기
