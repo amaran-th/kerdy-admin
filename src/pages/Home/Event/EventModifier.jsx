@@ -19,8 +19,8 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
     applyEndDateTime: "",
     imageUrl: event.imageUrl,
     type: event.type,
-    paymentType: event.paymentType,
-    eventMode: event.eventMode,
+    paymentType: "",
+    eventMode: "",
     organization: event.organization
   });
   const [newTags, setNewTags] = useState(
@@ -48,8 +48,8 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
         applyEndDateTime: dateParser2(event.applyEndDate),
         imageUrl: event.imageUrl,
         type: event.type,
-        paymentType: event.paymentType,
-        eventMode: event.eventMode,
+        paymentType: getPaymentType(event.paymentType),
+        eventMode: getEventMode(event.eventMode),
         organization: event.organization
       });
       setNewTags(
@@ -85,6 +85,18 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
   const isIncludeTag = (tag) => {
     return newTags?.filter((newTag) => newTag.name === tag.name).length !== 0;
   };
+
+  const getPaymentType = (kor) => {
+    if (kor === "무료") return 'FREE'
+    if (kor === '유료') return 'PAID'
+    if (kor === '유무료') return 'FREE_PAID'
+  }
+
+  const getEventMode = (kor) => {
+    if (kor === "온라인") return 'ONLINE'
+    if (kor === '오프라인') return 'OFFLINE'
+    if (kor === '온오프라인') return 'ON_OFFLINE'
+  }
   return (
     <div className="fixed top-0 left-0 z-[99] flex h-[100vh] w-full items-center justify-center bg-black bg-opacity-70">
       <form
@@ -240,7 +252,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
                 <option value="ON_OFFLINE">온/오프라인</option>
               </select>
             </div>
-            {/* <div>
+            <div>
               <div className="inline-block min-w-[8em] p-2 text-center">
                 행사 유형
               </div>
@@ -254,7 +266,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
                 <option value="CONFERENCE">컨퍼런스</option>
                 <option value="COMPETITION">대회</option>
               </select>
-            </div> */}
+            </div>
             <div className="flex">
               <div className="inline-block min-w-[8em] p-2 text-center">
                 태그

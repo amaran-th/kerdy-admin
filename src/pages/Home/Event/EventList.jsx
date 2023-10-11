@@ -22,6 +22,7 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent, state }) => 
         <th>이름</th>
         <th>태그 목록</th>
         <th>행사 기간</th>
+        <th>신청 기간</th>
         <th>수정/삭제</th>
       </thead>
       <tbody>
@@ -32,7 +33,7 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent, state }) => 
               <img className="h-24 w-24" src={event.imageUrl} />
             </td>
             <td>
-              <img className="h-24 w-24" src={getImagePath(envType) + event.thumbnail} />
+              <img className="h-24 w-24" src={getImagePath(envType) + event.thumbnailUrl} />
             </td>
             <td>{event.name}</td>
             <td>
@@ -49,10 +50,15 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent, state }) => 
                 </span>
               ))}
             </td>
-            <td>
-              {dateParser(event.startDate)}~
+            <td className="text-xs">
+              {dateParser(event.eventStartDate)}~
               <br />
-              {dateParser(event.endDate)}
+              {dateParser(event.eventEndDate)}
+            </td>
+            <td className="text-xs">
+              {dateParser(event.applyStartDate)}~
+              <br />
+              {dateParser(event.applyEndDate)}
             </td>
             <td className="flex items-center justify-center">
               <button
