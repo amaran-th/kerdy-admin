@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import eventApi from "../../../api/event";
 import tagApi from "../../../api/tag";
-import ThumbnailUploader from "./ThumbnailUploader";
 import ImagesUploader from "./ImagesUploader"
 import { connect } from "react-redux";
 
@@ -18,13 +17,11 @@ const EventAppender = ({ refresh, setRefresh, type, state }) => {
     endDateTime: defaultDateTime,
     applyStartDateTime: defaultDateTime,
     applyEndDateTime: defaultDateTime,
-    imageUrl: "",
     paymentType: "FREE",
     eventMode: "OFFLINE",
     organization: "",
   });
   const [newTags, setNewTags] = useState([]);
-  const [thumbnail, setThumbnail] = useState(null);
   const [informationImages, setInformationImages] = useState([]);
   const [preventClick, setPreventClick] = useState(false);
   const { envType } = state.envType;
@@ -38,7 +35,7 @@ const EventAppender = ({ refresh, setRefresh, type, state }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setPreventClick(true);
-    var images = thumbnail ? [thumbnail, ...informationImages] : informationImages;
+    var images = informationImages;
     eventApi.addEvent({ newData, newTags, type, images, envType }).then((data) => {
       if (!data.message) {
         alert("정상적으로 등록되었습니다.");
@@ -64,23 +61,7 @@ const EventAppender = ({ refresh, setRefresh, type, state }) => {
       onSubmit={handleSubmit}
     >
       <div className="flex justify-center space-x-4">
-        <ThumbnailUploader title="섬네일" setThumbnail={setThumbnail} />
         <div>
-          <div>
-            <div className="inline-block min-w-[8em] p-2 text-center">
-              섬네일 URL(추후 삭제 예정)
-            </div>
-            <input
-              type="text"
-              className="border border-black"
-              value={newData.imageUrl}
-              onChange={(e) => {
-                setNewData({ ...newData, imageUrl: e.target.value });
-              }}
-              required
-            />
-            <img className="inline-block h-40 w-40 border" src={newData.imageUrl} />
-          </div>
           <div>
             <div className="inline-block min-w-[8em] p-2 text-center">
               행사명

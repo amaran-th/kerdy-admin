@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import eventApi from "../../../api/event";
 import tagApi from "../../../api/tag";
 import { dateParser2, getImagePath } from "../../../util";
-import ThumbnailUploader from "./ThumbnailUploader";
 import ImagesUploader from "./ImagesUploader"
 import { connect } from "react-redux";
 
@@ -17,7 +16,6 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
     endDateTime: "",
     applyStartDateTime: "",
     applyEndDateTime: "",
-    imageUrl: event.imageUrl,
     type: event.type,
     paymentType: "",
     eventMode: "",
@@ -28,7 +26,6 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
       return { name: tag };
     })
   );
-  const [thumbnail, setThumbnail] = useState(null);
   const [newImages, setNewImages] = useState([]);
   const { envType } = state.envType;
 
@@ -57,14 +54,14 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
           return { name: tag };
         })
       );
-      setThumbnail(null);
+
       setNewImages([]);
     }
   }, [event]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    var images = thumbnail ? [thumbnail, ...newImages] : newImages;
+    var images = newImages;
     eventApi.modifyEvent({ newData, newTags, id: event.id, images, envType }).then((data) => {
       if (!data.message) {
         alert("정상적으로 수정되었습니다.");
@@ -104,23 +101,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
         onSubmit={handleSubmit}
       >
         <div className="flex justify-center">
-          <ThumbnailUploader title="섬네일" setThumbnail={setThumbnail} />
           <div>
-            <div>
-              <div className="inline-block min-w-[8em] p-2 text-center">
-                섬네일 URL(추후 삭제 예정)
-              </div>
-              <input
-                type="text"
-                className="border border-black"
-                value={newData.imageUrl}
-                onChange={(e) => {
-                  setNewData({ ...newData, imageUrl: e.target.value });
-                }}
-                required
-              />
-              <img className="inline-block h-40 w-40 border" src={newData.imageUrl} />
-            </div>
             <div>
               <div className="inline-block min-w-[8em] p-2 text-center">
                 행사명

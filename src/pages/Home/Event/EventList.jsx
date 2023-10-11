@@ -17,7 +17,6 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent, state }) => 
     <table className="w-full border-2 border-green-300">
       <thead className="bg-green-300 text-white">
         <th>id</th>
-        <th>이미지(삭제 예정)</th>
         <th>섬네일</th>
         <th>이름</th>
         <th>태그 목록</th>
@@ -29,9 +28,6 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent, state }) => 
         {events?.map((event) => (
           <tr id={event.id} className="border-2 border-green-300">
             <td>{event.id}</td>
-            <td>
-              <img className="h-24 w-24" src={event.imageUrl} />
-            </td>
             <td>
               <img className="h-24 w-24" src={getImagePath(envType) + event.thumbnailUrl} />
             </td>
