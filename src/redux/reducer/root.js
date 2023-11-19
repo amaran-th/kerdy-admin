@@ -4,15 +4,17 @@ import storage from 'redux-persist/lib/storage';
 
 // local
 import reducerEnvType from './envType';
+import reducerToken from './token';
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['envType', 'darkMode', 'member', 'ctf', 'vote'],
+    whitelist: ['envType', 'token', 'member', 'ctf', 'vote'],
 };
 
 const rootReducer = combineReducers({
-    envType: reducerEnvType
+    envType: reducerEnvType,
+    token: reducerToken
 });
 
 export default persistReducer(persistConfig, rootReducer);

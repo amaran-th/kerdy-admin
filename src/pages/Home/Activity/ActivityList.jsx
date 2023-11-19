@@ -40,8 +40,6 @@ const ActivityList = ({ activities, refresh, setRefresh, state }) => {
         <th>삭제하기</th>
       </thead>
       <tbody>
-        {console.log(getActivityTypes())}
-        {console.log(activities)}
         {getActivityTypes().map((type) => (
           <>
             <tr>
@@ -72,7 +70,6 @@ const ActivityList = ({ activities, refresh, setRefresh, state }) => {
                 </form>
               </td>
             </tr>
-            {console.log(groupedActivity())}
             {groupedActivity()[type]?.map((activitiyResponse) => (
               <tr
                 id={activitiyResponse.id}
