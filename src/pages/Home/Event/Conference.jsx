@@ -21,16 +21,16 @@ const Conference = ({
 
   return (
     <div>
+      <EventAppender
+        refresh={refresh}
+        setRefresh={setRefresh}
+        type="CONFERENCE"
+      />
       <EventList
         events={events}
         refresh={refresh}
         setRefresh={setRefresh}
         setSelectedEvent={setSelectedEvent}
-      />
-      <EventAppender
-        refresh={refresh}
-        setRefresh={setRefresh}
-        type="CONFERENCE"
       />
     </div>
   );

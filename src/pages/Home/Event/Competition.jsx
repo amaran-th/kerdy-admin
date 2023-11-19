@@ -21,16 +21,16 @@ const Competition = ({
 
   return (
     <div>
+      <EventAppender
+        refresh={refresh}
+        setRefresh={setRefresh}
+        type="COMPETITION"
+      />
       <EventList
         events={events}
         refresh={refresh}
         setRefresh={setRefresh}
         setSelectedEvent={setSelectedEvent}
-      />
-      <EventAppender
-        refresh={refresh}
-        setRefresh={setRefresh}
-        type="COMPETITION"
       />
     </div>
   );

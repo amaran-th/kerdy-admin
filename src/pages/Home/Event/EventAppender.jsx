@@ -23,26 +23,23 @@ const EventAppender = ({ refresh, setRefresh, type, state }) => {
   });
   const [newTags, setNewTags] = useState([]);
   const [informationImages, setInformationImages] = useState([]);
-  const [preventClick, setPreventClick] = useState(false);
+  const [isLoading, setPreventClick] = useState(false);
   const { envType } = state.envType;
 
   useEffect(() => {
     tagApi.getTags(envType).then((data) => {
       setTags(data);
     });
-  }, [refresh]);
+  }, [refresh, isLoading]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setPreventClick(true);
+    // event.stopPropagation();
+    setPreventClick(!isLoading);
     var images = informationImages;
-    eventApi.addEvent({ newData, newTags, type, images, envType }).then((data) => {
-      if (!data.message) {
-        alert("정상적으로 등록되었습니다.");
-        setRefresh(!refresh);
-      }
-    });
-    setPreventClick(false)
+    await eventApi.addEvent({ newData, newTags, type, images, envType });
+    setPreventClick(false);
+    setRefresh(!refresh);
   };
   const addTag = (tag) => {
     setNewTags([...newTags, { name: tag.name }]);
@@ -218,11 +215,11 @@ const EventAppender = ({ refresh, setRefresh, type, state }) => {
       </div>
       <div className="flex-center flex justify-center gap-4">
         <button
-          className="w-[10em] rounded-md bg-green-300 p-2 text-white"
-          disabled={preventClick}
+          className={(isLoading ? "bg-gray-200" : "") + " w-[10em] rounded-md bg-green-300 p-2 text-white"}
+          disabled={isLoading}
           type="submit"
         >
-          추가하기
+          {isLoading ? '저장 중 ' : "추가하기"}
         </button>
       </div>
     </form >
