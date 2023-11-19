@@ -17,7 +17,7 @@ async function getTags(envType) {
 async function addTag({ name, envType }) {
   const options = {
     method: "POST",
-    url: getApiUrl(envType) + "/tags",
+    url: getApiUrl(envType) + "/admin/tags",
     data: { name },
   };
   try {

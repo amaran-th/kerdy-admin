@@ -61,12 +61,13 @@ async function addEvent({ newData, newTags, type, images, envType }) {
   })
   const options = {
     method: "POST",
-    url: getApiUrl(envType) + "/events",
+    url: getApiUrl(envType) + "/admin/events",
     data: formData
   };
   try {
     const response = await axios(options);
-    return response.data;
+    alert("정상적으로 등록되었습니다.")
+    return response;
   } catch (error) {
     alert(error.response?.data?.message);
     return error.response?.data;
@@ -95,7 +96,7 @@ async function modifyEvent({ newData, newTags, id, images, envType }) {
   })
   const options = {
     method: "PUT",
-    url: getApiUrl(envType) + "/events/" + id,
+    url: getApiUrl(envType) + "/admin/events/" + id,
     data: formData
   };
   try {
@@ -109,7 +110,7 @@ async function modifyEvent({ newData, newTags, id, images, envType }) {
 async function removeEvent({ id, envType }) {
   const options = {
     method: "DELETE",
-    url: getApiUrl(envType) + "/events/" + id,
+    url: getApiUrl(envType) + "/admin/events/" + id,
     headers: { token: "testtest" },
   };
   try {

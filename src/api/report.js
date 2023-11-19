@@ -5,7 +5,7 @@ import { getApiUrl } from "../util";
 async function getReports(envType) {
   const options = {
     method: "GET",
-    url: getApiUrl(envType) + "/reports",
+    url: getApiUrl(envType) + "/admin/reports",
   };
   try {
     const response = await axios(options);

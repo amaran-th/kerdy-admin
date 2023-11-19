@@ -17,7 +17,7 @@ async function getActivities(envType) {
 async function addActivity({ name, activityType, envType }) {
   const options = {
     method: "POST",
-    url: getApiUrl(envType) + "/activities",
+    url: getApiUrl(envType) + "/admin/activities",
     headers: { token: "testtest" },
     data: {
       name,
