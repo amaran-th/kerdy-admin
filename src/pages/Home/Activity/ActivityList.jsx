@@ -17,6 +17,20 @@ const ActivityList = ({ activities, refresh, setRefresh, state }) => {
         setRefresh(!refresh);
       });
   };
+  const groupedActivity = () => {
+    return activities.reduce((acc, curr) => {
+      const { activityType } = curr;
+      if (acc[activityType]) acc[activityType].push(curr);
+      else acc[activityType] = [curr];
+      return acc;
+    }, []);
+  }
+
+  const getActivityTypes = () => {
+    return [...new Set(activities.map(activity => {
+      return activity.activityType
+    }))]
+  }
 
   return (
     <table className="w-full border-2 border-green-300">
@@ -26,22 +40,24 @@ const ActivityList = ({ activities, refresh, setRefresh, state }) => {
         <th>삭제하기</th>
       </thead>
       <tbody>
-        {activities.map((activity) => (
+        {console.log(getActivityTypes())}
+        {console.log(activities)}
+        {getActivityTypes().map((type) => (
           <>
             <tr>
               <td className="bg-green-50 p-2" colspan={4}>
                 <span className="text-lg font-bold text-green-300">
-                  {activity.activityType}
+                  {type}
                 </span>
                 <form className="mx-4 inline-block">
                   <input
                     type="text"
                     className="border border-black"
-                    value={newActivity[activity.activityType]}
+                    value={newActivity[type]}
                     onChange={(e) => {
                       setNewActivity({
                         ...newActivity,
-                        [activity.activityType]: e.target.value,
+                        [type]: e.target.value,
                       });
                     }}
                     required
@@ -49,14 +65,15 @@ const ActivityList = ({ activities, refresh, setRefresh, state }) => {
                   <button
                     className="ml-2 w-[6em] rounded-xl bg-green-300 p-1 px-2 text-sm text-white"
                     type="button"
-                    onClick={() => handleSubmit(activity.activityType)}
+                    onClick={() => handleSubmit(type)}
                   >
                     추가하기
                   </button>
                 </form>
               </td>
             </tr>
-            {activity.activityResponses?.map((activitiyResponse) => (
+            {console.log(groupedActivity())}
+            {groupedActivity()[type]?.map((activitiyResponse) => (
               <tr
                 id={activitiyResponse.id}
                 className="border-2 border-green-300"

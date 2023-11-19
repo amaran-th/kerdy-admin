@@ -47,9 +47,9 @@ const EventList = ({ events, refresh, setRefresh, setSelectedEvent, state }) => 
               ))}
             </td>
             <td className="text-xs">
-              {dateParser(event.eventStartDate)}~
+              {dateParser(event.startDate)}~
               <br />
-              {dateParser(event.eventEndDate)}
+              {dateParser(event.endDate)}
             </td>
             <td className="text-xs">
               {dateParser(event.applyStartDate)}~
