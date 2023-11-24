@@ -5,9 +5,10 @@ import { connect } from "react-redux";
 
 const EventList = ({ events, refresh, setRefresh, setSelectedEvent, state }) => {
   const { envType } = state.envType;
+  const { token } = state.token;
   const handleEventDelete = (id) => {
     if (window.confirm("삭제하시겠습니까?")) {
-      eventApi.removeEvent({ id, envType }).then((data) => {
+      eventApi.removeEvent({ id, envType, token }).then((data) => {
         setRefresh(!refresh);
       });
     }

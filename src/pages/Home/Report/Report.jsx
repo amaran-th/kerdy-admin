@@ -10,7 +10,7 @@ const Report = ({ state }) => {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    reportApi.getReports(state.envType.envType).then((data) => {
+    reportApi.getReports(state.envType.envType, state.token.token).then((data) => {
       setReports(data);
     });
   }, [refresh]);

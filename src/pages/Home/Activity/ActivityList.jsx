@@ -11,7 +11,8 @@ const ActivityList = ({ activities, refresh, setRefresh, state }) => {
       .addActivity({
         name: newActivity[type],
         activityType: activityTypes[type],
-        envType: state.envType.envType
+        envType: state.envType.envType,
+        token: state.token.token
       })
       .then((data) => {
         setRefresh(!refresh);

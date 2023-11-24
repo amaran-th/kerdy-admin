@@ -39,7 +39,7 @@ async function getEvent({ id, envType }) {
   }
 }
 
-async function addEvent({ newData, newTags, type, images, envType }) {
+async function addEvent({ newData, newTags, type, images, envType, token }) {
   const formData = new FormData();
   const request = {
     name: newData.name,
@@ -62,7 +62,8 @@ async function addEvent({ newData, newTags, type, images, envType }) {
   const options = {
     method: "POST",
     url: getApiUrl(envType) + "/admin/events",
-    data: formData
+    data: formData,
+    headers: { Authorization: `bearer ${token}` },
   };
   try {
     const response = await axios(options);
@@ -74,7 +75,7 @@ async function addEvent({ newData, newTags, type, images, envType }) {
   }
 }
 
-async function modifyEvent({ newData, newTags, id, images, envType }) {
+async function modifyEvent({ newData, newTags, id, images, envType, token }) {
   const formData = new FormData();
   const request = {
     name: newData.name,
@@ -97,7 +98,8 @@ async function modifyEvent({ newData, newTags, id, images, envType }) {
   const options = {
     method: "PUT",
     url: getApiUrl(envType) + "/admin/events/" + id,
-    data: formData
+    data: formData,
+    headers: { Authorization: `bearer ${token}` },
   };
   try {
     const response = await axios(options);
@@ -107,11 +109,12 @@ async function modifyEvent({ newData, newTags, id, images, envType }) {
     return error.response.data;
   }
 }
-async function removeEvent({ id, envType }) {
+
+async function removeEvent({ id, envType, token }) {
   const options = {
     method: "DELETE",
     url: getApiUrl(envType) + "/admin/events/" + id,
-    headers: { token: "testtest" },
+    headers: { Authorization: `bearer ${token}` },
   };
   try {
     const response = await axios(options);

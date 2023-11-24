@@ -14,11 +14,11 @@ async function getActivities(envType) {
   }
 }
 
-async function addActivity({ name, activityType, envType }) {
+async function addActivity({ name, activityType, envType, token }) {
   const options = {
     method: "POST",
     url: getApiUrl(envType) + "/admin/activities",
-    headers: { token: "testtest" },
+    headers: { Authorization: `bearer ${token}` },
     data: {
       name,
       activityType,

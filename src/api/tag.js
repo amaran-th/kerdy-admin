@@ -14,11 +14,12 @@ async function getTags(envType) {
   }
 }
 
-async function addTag({ name, envType }) {
+async function addTag({ name, envType, token }) {
   const options = {
     method: "POST",
     url: getApiUrl(envType) + "/admin/tags",
     data: { name },
+    headers: { Authorization: `bearer ${token}` },
   };
   try {
     const response = await axios(options);

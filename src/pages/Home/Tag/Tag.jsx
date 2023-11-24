@@ -9,6 +9,7 @@ const Tag = ({ state }) => {
   const [refresh, setRefresh] = useState(false);
   const [newTagName, setNewTagName] = useState("");
   const { envType } = state.envType;
+  const { token } = state.token;
 
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const Tag = ({ state }) => {
   }, [refresh]);
 
   const handleSubmit = () => {
-    tagApi.addTag({ name: newTagName, envType }).then((data) => {
+    tagApi.addTag({ name: newTagName, envType, token }).then((data) => {
       setRefresh(!refresh);
     });
   };

@@ -28,6 +28,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
   );
   const [newImages, setNewImages] = useState([]);
   const { envType } = state.envType;
+  const { token } = state.token;
 
   useEffect(() => {
     tagApi.getTags(envType).then((data) => {
@@ -62,7 +63,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     var images = newImages;
-    eventApi.modifyEvent({ newData, newTags, id: event.id, images, envType }).then((data) => {
+    eventApi.modifyEvent({ newData, newTags, id: event.id, images, envType, token }).then((data) => {
       if (!data.message) {
         alert("정상적으로 수정되었습니다.");
         setEvent({});
@@ -156,30 +157,7 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
                 required
               />
             </div>
-            <div>
-              <div className="inline-block min-w-[8em] p-2 text-center">
-                행사 기간
-              </div>
-              <input
-                type="datetime-local"
-                className="border border-black"
-                value={newData.startDateTime}
-                onChange={(e) => {
-                  setNewData({ ...newData, startDateTime: e.target.value });
-                }}
-                required
-              />
-              <div className="inline-block min-w-[8em] p-2 text-center">~</div>
-              <input
-                type="datetime-local"
-                className="border border-black"
-                value={newData.endDateTime}
-                onChange={(e) => {
-                  setNewData({ ...newData, endDateTime: e.target.value });
-                }}
-                required
-              />
-            </div>
+
             <div>
               <div className="inline-block min-w-[8em] p-2 text-center">
                 신청 기간
@@ -203,6 +181,30 @@ const EventModifier = ({ event, setEvent, refresh, setRefresh, state }) => {
                 value={newData.applyEndDateTime}
                 onChange={(e) => {
                   setNewData({ ...newData, applyEndDateTime: e.target.value });
+                }}
+                required
+              />
+            </div>
+            <div>
+              <div className="inline-block min-w-[8em] p-2 text-center">
+                행사 기간
+              </div>
+              <input
+                type="datetime-local"
+                className="border border-black"
+                value={newData.startDateTime}
+                onChange={(e) => {
+                  setNewData({ ...newData, startDateTime: e.target.value });
+                }}
+                required
+              />
+              <div className="inline-block min-w-[8em] p-2 text-center">~</div>
+              <input
+                type="datetime-local"
+                className="border border-black"
+                value={newData.endDateTime}
+                onChange={(e) => {
+                  setNewData({ ...newData, endDateTime: e.target.value });
                 }}
                 required
               />
